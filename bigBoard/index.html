@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lichess 256 — 16×16 Schach</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="ui-lichess board-brown shape-classic">
+<header class="navbar">
+  <div class="logo">lichess<span>256</span>.org</div>
+  <div class="controls-top">
+    <select id="ui-theme">
+      <option value="ui-lichess">Layout: Lichess Dark</option>
+      <option value="ui-cyber">Layout: Cyberpunk Neon</option>
+      <option value="ui-royal">Layout: Royal Holz & Gold</option>
+      <option value="ui-light">Layout: Clean Light</option>
+    </select>
+    <select id="board-theme">
+      <option value="board-brown">Brett: Braun</option>
+      <option value="board-green">Brett: Turnier Grün</option>
+      <option value="board-blue">Brett: Ozean Blau</option>
+      <option value="board-purple">Brett: Royal Lila</option>
+      <option value="board-red">Brett: Vulkan Rot</option>
+      <option value="board-marble">Brett: Marmor</option>
+      <option value="board-dark">Brett: Schiefer</option>
+      <option value="board-cyber">Brett: Neon Grid</option>
+    </select>
+    <select id="piece-style">
+      <option value="cburnett">Skin: Cburnett</option>
+      <option value="merida">Skin: Kontrast 3D</option>
+      <option value="gold">Skin: Gold Edition</option>
+      <option value="neon">Skin: Neon Cyan</option>
+      <option value="ice">Skin: Eis-Kristall</option>
+      <option value="ruby">Skin: Rubin</option>
+    </select>
+    <select id="piece-shape">
+      <option value="shape-classic">Form: Klassisch</option>
+      <option value="shape-bold">Form: Kräftig / Breit</option>
+      <option value="shape-badge">Form: Turnier-Münze</option>
+    </select>
+    <button id="btn-rules" class="btn-accent">Anleitung V2</button>
+    <button id="btn-setup" class="btn-secondary">Neues Spiel</button>
+    <button id="btn-flip" class="btn-secondary">Drehen</button>
+  </div>
+</header>
+<main class="arena">
+  <div class="eval-container hidden" id="eval-box"><div class="eval-bar"><div class="eval-white" id="eval-fill" style="height: 50%"></div><span class="eval-text" id="eval-score">0.0</span></div></div>
+  <div class="board-container"><div id="chessboard" class="board"></div></div>
+  <aside class="sidebar">
+    <div class="player-card"><div><span class="dot black"></span> <strong id="top-name">Gegner</strong></div><div class="clock-group"><button class="btn-gift" id="gift-top">+15s</button><span class="clock" id="clock-top">10:00</span></div></div>
+    <div class="host-bar"><label class="switch-label"><input type="checkbox" id="engine-toggle"><span>Engine & Pfeil (Host)</span></label><span id="variant-badge" class="badge">Standard</span></div>
+    <div class="status-box" id="status-text">Weiß ist am Zug</div>
+    <div class="move-list" id="move-list"></div>
+    <div class="player-card"><div><span class="dot white"></span> <strong id="bot-name">Du</strong></div><div class="clock-group"><button class="btn-gift" id="gift-bottom">+15s</button><span class="clock" id="clock-bottom">10:00</span></div></div>
+  </aside>
+</main>
+<div class="modal" id="setup-modal">
+  <div class="modal-box">
+    <h2>Neues 16×16 Match erstellen</h2>
+    <div class="form-group"><label>Spielvariante:</label><select id="opt-variant"><option value="standard">Standard 16×16 (Klassische Figuren)</option><option value="variant2">Variante 2: Chaos-Armee (Kanzler, Erzbischof, Amazone)</option></select></div>
+    <div class="form-group"><label>Deine Farbe:</label><select id="opt-color"><option value="w">Weiß spielen</option><option value="b">Schwarz spielen</option><option value="random">Zufällig</option></select></div>
+    <div class="form-group"><label>Gegner wählen:</label><select id="opt-mode"><option value="local">Freund einladen (QR-Code & Link)</option><option value="bot-easy">Gegen Bot — Leicht</option><option value="bot-med">Gegen Bot — Mittel</option><option value="bot-hard">Gegen Bot — Schwer (Engine)</option></select></div>
+    <div class="form-group"><label>Bedenkzeit: <strong id="time-val">10</strong> Min.</label><input type="range" id="opt-time" min="1" max="60" value="10"></div>
+    <div id="qr-area" class="qr-box">
+      <p>QR-Code scannen oder Link verschicken:</p>
+      <img id="qr-img" src="qr.png" style="width:125px;height:125px;border-radius:6px;background:#fff;padding:5px;">
+      <div class="link-row"><input type="text" id="invite-link" readonly><button type="button" id="btn-copy-link" class="btn-accent">Kopieren</button></div>
+    </div>
+    <button id="btn-start-game" class="btn-start">Spiel starten</button>
+  </div>
+</div>
+<div class="modal hidden" id="rules-modal">
+  <div class="modal-box">
+    <h2>Anleitung: Variante 2 (Chaos-Armee)</h2>
+    <div class="rule-card"><strong>1. Erzbischof (E) — Läufer + Springer</strong><p>Zieht diagonal beliebig weit UND springt wie ein Springer.</p></div>
+    <div class="rule-card"><strong>2. Kanzler (C) — Turm + Springer</strong><p>Zieht gerade beliebig weit UND springt wie ein Springer.</p></div>
+    <div class="rule-card"><strong>3. Amazone (A) — Dame + Springer</strong><p>Kombiniert Dame + Springer – die stärkste Figur auf dem Brett!</p></div>
+    <div class="rule-card"><strong>Bauern-Sprint:</strong> Alle 16 Bauern dürfen beim 1. Zug bis zu 3 Felder vorrücken.</div>
+    <button id="btn-close-rules" class="btn-start">Verstanden!</button>
+  </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
